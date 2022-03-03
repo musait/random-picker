@@ -16,7 +16,7 @@
                                 <h1 class="display-5 fw-bolder text-white mb-2">Vous vous demandez où est-ce que vous allez déjeuner ce midi ? </h1>
                                 <p class="lead fw-normal text-white-50 mb-4">Le doute universel, Où peut-on aller déjeuner ? Ce sera toujours la confusion sans fin avec votre famille et vos amis. Dans un tel cas, cliquez sur le bouton pour sélectionner un repas pour vous et vos collègues, amis ou famille, ils se feront un plaisir de vous laisser décider où vous précipiter pour vous restaurer ! </p>
                                 <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                                    <a class="btn btn-primary btn-lg px-4 me-sm-3">Cliquez ici et découvrez ce que vous allez manger ! </a>
+                                    <a class="btn btn-primary btn-lg px-4 me-sm-3" id="triggerChoice">Cliquez ici et découvrez ce que vous allez manger ! </a>
                                 </div>
                             </div>
                         </div>
@@ -26,7 +26,7 @@
             <!-- Blog preview section-->
             <section class="py-5 bg-light">
                 <div class="container px-5 my-5">
-                    <h2 class="display-5 fw-bolder mb-4">Le choix a tourné ! Voici le résultat : Burger</h2>
+                    <h2 class="display-5 fw-bolder mb-4" >Le choix a tourné ! Voici le résultat : <span id="result"> Burger </span> </h2>
                 </div>
             </section>
             <section class="py-5">
@@ -70,4 +70,22 @@
         </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+
+            document.getElementById("triggerChoice").addEventListener("click", getRandomChoice );
+
+            function getRandomChoice() {
+                url = "http://localhost:3000/get_random_choice"
+                fetch(url).then(response =>
+                    response.json().then(data => ({
+                        data: data
+                    })
+                ).then(res => {
+                    document.getElementById("result").innerHTML = res.data.name
+                }));
+
+            }
+        </script>
+
     </body>
