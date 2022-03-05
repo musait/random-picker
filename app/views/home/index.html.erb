@@ -65,7 +65,7 @@
             document.getElementById("triggerChoice").addEventListener("click", getRandomChoice );
 
             function getRandomChoice() {
-                url = "http://localhost:3000/get_random_choice"
+                url = "https://random-picker-dej.herokuapp.com//get_random_choice"
                 fetch(url).then(response =>
                     response.json().then(data => ({
                         data: data
@@ -94,7 +94,7 @@
             // Do something with the coordinates
             keyword = document.getElementById("result").innerHTML
 
-            url = `http://localhost:3000/get_places?keyword=${keyword}&lat=${position.coords.latitude}&long=${position.coords.longitude}`
+            url = `https://random-picker-dej.herokuapp.com//get_places?keyword=${keyword}&lat=${position.coords.latitude}&long=${position.coords.longitude}`
 
             fetch(url).then(response =>
                 response.json().then(data => ({
