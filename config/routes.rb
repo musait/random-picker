@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   get '/', to: 'home#index'
 
   get 'get_random_choice', to: 'choices#get_random_choices'
+  get 'get_places', to: 'choices#get_places'
 end
