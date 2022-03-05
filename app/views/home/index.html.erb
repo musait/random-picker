@@ -3,8 +3,8 @@
             <!-- Navigation-->
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container px-5">
-                    <a class="navbar-brand" href="index.html">Où manger ce midi ? </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+                    <p class="navbar-brand">Où manger ce midi ? </p>
                 </div>
             </nav>
             <!-- Header-->
@@ -24,12 +24,12 @@
                 </div>
             </header>
             <!-- Blog preview section-->
-            <section class="py-5 bg-light">
+            <section class="py-5 bg-light hidden" id="displayResult" >
                 <div class="container px-5 my-5">
-                    <h2 class="display-5 fw-bolder mb-4" >Le choix a tourné ! Voici le résultat : <span id="result"> Burger </span> </h2>
+                    <h2 class="display-5 fw-bolder mb-4" >Le choix a tourné ! Voici le résultat : <span id="result"> </span> </h2>
                 </div>
             </section>
-            <section class="py-5">
+            <section id="suggestion" class="py-5 hidden">
                 <div class="container px-5 my-5">
                     <div class="row gx-5 justify-content-center">
                         <div class="col-lg-8 col-xl-6">
@@ -38,18 +38,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row gx-5">
-                        <div class="col-lg-4 mb-5">
-                            <div class="card h-100 shadow border-0">
-                                <img class="card-img-top" src="https://dummyimage.com/600x350/ced4da/6c757d" alt="..." />
-                                <div class="card-body p-4">
-                                    <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
-                                    <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">Blog post title</h5></a>
-                                    <p class="card-text mb-0">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="row gx-5" id="suggestionCard"> </div>
                 </div>
             </section>
         </main>
@@ -83,9 +72,74 @@
                     })
                 ).then(res => {
                     document.getElementById("result").innerHTML = res.data.name
+                    document.getElementById("displayResult").style.display = 'block'
+                    document.getElementById("suggestion").style.display = 'block'
+                    getLocation()
                 }));
 
             }
+        </script>
+
+        <script>
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(getPlaces);
+            } else {
+                document.getElementById("suggestionCard").innerHTML = `<p> Geolocation is not supported by this browser </p>`;
+            }
+        }
+
+        function getPlaces(position) {
+            // Do something with the coordinates
+            keyword = document.getElementById("result").innerHTML
+
+            url = `http://localhost:3000/get_places?keyword=${keyword}&lat=${position.coords.latitude}&long=${position.coords.longitude}`
+
+            fetch(url).then(response =>
+                response.json().then(data => ({
+                    data: data
+                })
+            ).then(res => {
+                displayRestaurants(res)
+            }));
+        }
+
+        function displayRestaurants(res) {
+            if (!res || !res.data || !res.data.results) {
+                return
+            }
+            const restaurants = res.data.results
+            const suggestedRestaurantsInHtml = restaurants.map(restaurant => {
+                if (restaurant.business_status === "CLOSED_TEMPORARILY") {
+                    return
+                }
+
+               let isOpen = ''
+                if ( restaurant.opening_hours && restaurant.opening_hours.open_now) {
+                    isOpen = restaurant.opening_hours.open_now ? "Ouvert" : "Fermé"
+                } else {
+                    console.log(restaurant.opening_hours.open_now)
+                    isOpen = "Non Renseigné"
+                }
+                return (`<div class="col-lg-3" style="margin-bottom:50px">
+                                <div class="card h-100 shadow border-0">
+                                    <div class="card-body p-4">
+                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">
+                                        ${isOpen}</div>
+                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">
+                                        ${restaurant.rating}</div>
+                                        <p class="text-decoration-none link-dark stretched-link">
+                                        <h5 class="card-title mb-3">${restaurant.name}</h5>
+                                        </p>
+                                        <p class="card-text mb-0">${restaurant.vicinity}</p>
+                                        <div><a href="https://www.google.fr/search?q=${restaurant.name}"> Voir ce restaurant </a> </div>
+                                    </div>
+                                </div>
+                            </div>`)
+            })
+            document.getElementById("suggestionCard").innerHTML = suggestedRestaurantsInHtml.join('');
+        }
         </script>
 
     </body>
