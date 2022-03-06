@@ -1,20 +1,20 @@
 <body class="d-flex flex-column h-100">
         <main class="flex-shrink-0">
             <!-- Navigation-->
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-white">
                 <div class="container px-5">
 
-                    <p class="navbar-brand">Où manger ce midi ? </p>
+                    <p class="navbar-brand text-black">Où manger ce midi ? </p>
                 </div>
             </nav>
             <!-- Header-->
-            <header class="bg-dark py-5">
+            <header class="bg-white py-5">
                 <div class="container px-5">
                     <div class="row gx-5 align-items-center justify-content-center">
                         <div class="col-12">
                             <div class="my-5 text-center text-xl-start">
-                                <h1 class="display-5 fw-bolder text-white mb-2">Vous vous demandez où est-ce que vous allez déjeuner ce midi ? </h1>
-                                <p class="lead fw-normal text-white-50 mb-4">Le doute universel, Où peut-on aller déjeuner ? Ce sera toujours la confusion sans fin avec votre famille et vos amis. Dans un tel cas, cliquez sur le bouton pour sélectionner un repas pour vous et vos collègues, amis ou famille, ils se feront un plaisir de vous laisser décider où vous précipiter pour vous restaurer ! </p>
+                                <h1 class="display-5 fw-bolder text-black mb-2">Vous vous demandez où est-ce que vous allez déjeuner ce midi ? </h1>
+                                <p class="lead fw-normal text-black-50 mb-4">Le doute universel, Où peut-on aller déjeuner ? Ce sera toujours la confusion sans fin avec votre famille et vos amis. Dans un tel cas, cliquez sur le bouton pour sélectionner un repas pour vous et vos collègues, amis ou famille, ils se feront un plaisir de vous laisser décider où vous précipiter pour vous restaurer ! </p>
                                 <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
                                     <a class="btn btn-primary btn-lg px-4 me-sm-3" id="triggerChoice">Cliquez ici et découvrez ce que vous allez manger ! </a>
                                 </div>
@@ -43,15 +43,15 @@
             </section>
         </main>
         <!-- Footer-->
-        <footer class="bg-dark py-4 mt-auto">
+        <footer class="bg-white py-4 mt-auto">
             <div class="container px-5">
                 <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                    <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; Your Website 2021</div></div>
+                    <div class="col-auto"><div class="small m-0 text-black">Copyright &copy; Your Website 2021</div></div>
                     <div class="col-auto">
                         <a class="link-light small" href="#!">Privacy</a>
-                        <span class="text-white mx-1">&middot;</span>
+                        <span class="text-black mx-1">&middot;</span>
                         <a class="link-light small" href="#!">Terms</a>
-                        <span class="text-white mx-1">&middot;</span>
+                        <span class="text-black mx-1">&middot;</span>
                         <a class="link-light small" href="#!">Contact</a>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
             document.getElementById("triggerChoice").addEventListener("click", getRandomChoice );
 
             function getRandomChoice() {
-                url = "https://random-picker-dej.herokuapp.com//get_random_choice"
+                url = "https://random-picker-dej.herokuapp.com/get_random_choice"
                 fetch(url).then(response =>
                     response.json().then(data => ({
                         data: data
@@ -94,7 +94,7 @@
             // Do something with the coordinates
             keyword = document.getElementById("result").innerHTML
 
-            url = `https://random-picker-dej.herokuapp.com//get_places?keyword=${keyword}&lat=${position.coords.latitude}&long=${position.coords.longitude}`
+            url = `https://random-picker-dej.herokuapp.com/get_places?keyword=${keyword}&lat=${position.coords.latitude}&long=${position.coords.longitude}`
 
             fetch(url).then(response =>
                 response.json().then(data => ({
