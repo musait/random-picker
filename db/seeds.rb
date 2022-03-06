@@ -6,11 +6,11 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-choices_array = ["Chinese",
+choices_array = ["Chinois",
 "Thai",
-"Indian",
-"Italian",
-"Mexican",
-"Fast Food"]
+"Indien",
+"Italien",
+"Mexicain"]
+
 Choice.delete_all
 choices_array.map{ |c| Choice.create(name:c)}

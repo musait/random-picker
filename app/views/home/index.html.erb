@@ -88,67 +88,64 @@
                     getLocation()
                 }));
             }
-        </script>
 
-        <script>
-
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(getPlaces);
-            } else {
-                document.getElementById("suggestionCard").innerHTML = `<p> Geolocation is not supported by this browser </p>`;
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(getPlaces);
+                } else {
+                    document.getElementById("suggestionCard").innerHTML = `<p> Geolocation is not supported by this browser </p>`;
+                }
             }
-        }
 
-        function getPlaces(position) {
-            // Do something with the coordinates
-            keyword = document.getElementById("result").innerHTML
+            function getPlaces(position) {
+                // Do something with the coordinates
+                keyword = document.getElementById("result").innerHTML
 
-            url = `<%=Rails.application.credentials.host_url%>/get_places?keyword=${keyword}&lat=${position.coords.latitude}&long=${position.coords.longitude}`
+                url = `<%=Rails.application.credentials.host_url%>/get_places?keyword=${keyword}&lat=${position.coords.latitude}&long=${position.coords.longitude}`
 
-            fetch(url).then(response =>
-                response.json().then(data => ({
-                    data: data
-                })
-            ).then(res => {
-                displayRestaurants(res)
-            }));
-        }
-
-        function displayRestaurants(res) {
-            if (!res || !res.data || !res.data.results) {
-                return
+                fetch(url).then(response =>
+                    response.json().then(data => ({
+                        data: data
+                    })
+                ).then(res => {
+                    displayRestaurants(res)
+                }));
             }
-            const restaurants = res.data.results
-            const suggestedRestaurantsInHtml = restaurants.map(restaurant => {
-                if (restaurant.business_status === "CLOSED_TEMPORARILY") {
+
+            function displayRestaurants(res) {
+                if (!res || !res.data || !res.data.results) {
                     return
                 }
+                const restaurants = res.data.results
+                const suggestedRestaurantsInHtml = restaurants.map(restaurant => {
+                    if (restaurant.business_status === "CLOSED_TEMPORARILY") {
+                        return
+                    }
 
-               let isOpen = ''
-                if ( restaurant.opening_hours && restaurant.opening_hours.open_now) {
-                    isOpen = restaurant.opening_hours.open_now ? "Ouvert" : "Fermé"
-                } else {
-                    isOpen = "Non Renseigné"
-                }
-                return (`<div class="col-lg-3" style="margin-bottom:50px">
-                                <div class="card h-100 shadow border-0">
-                                    <div class="card-body p-4">
-                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">
-                                        ${isOpen}</div>
-                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">
-                                        Note : ${restaurant.rating}</div>
-                                        <p class="text-decoration-none link-dark stretched-link">
-                                        <h5 class="card-title mb-3">${restaurant.name}</h5>
-                                        </p>
-                                        <p class="card-text mb-0">${restaurant.vicinity}</p>
-                                        <div><a href="https://www.google.fr/search?q=${restaurant.name}"> Voir ce restaurant </a> </div>
+                let isOpen = ''
+                    if ( restaurant.opening_hours && restaurant.opening_hours.open_now) {
+                        isOpen = restaurant.opening_hours.open_now ? "Ouvert" : "Fermé"
+                    } else {
+                        isOpen = "Non Renseigné"
+                    }
+                    return (`<div class="col-lg-3" style="margin-bottom:50px">
+                                    <div class="card h-100 shadow border-0">
+                                        <div class="card-body p-4">
+                                            <div class="badge bg-primary bg-gradient rounded-pill mb-2">
+                                            ${isOpen}</div>
+                                            <div class="badge bg-primary bg-gradient rounded-pill mb-2">
+                                            Note : ${restaurant.rating}</div>
+                                            <p class="text-decoration-none link-dark stretched-link">
+                                            <h5 class="card-title mb-3">${restaurant.name}</h5>
+                                            </p>
+                                            <p class="card-text mb-0">${restaurant.vicinity}</p>
+                                            <div><a href="https://www.google.fr/search?q=${restaurant.name}"> Voir ce restaurant </a> </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>`)
-            })
-            document.getElementById("suggestionCard").innerHTML = suggestedRestaurantsInHtml.join('');
-        }
+                                </div>`)
+                })
+                document.getElementById("suggestionCard").innerHTML = suggestedRestaurantsInHtml.join('');
+            }
         </script>
 
     </body>
