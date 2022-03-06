@@ -14,9 +14,10 @@
                         <div class="col-12">
                             <div class="my-5 text-center text-xl-start">
                                 <h1 class="display-5 fw-bolder text-black mb-2">Vous vous demandez où est-ce que vous allez déjeuner ce midi ? </h1>
-                                <p class="lead fw-normal text-black-50 mb-4">Le doute universel, Où peut-on aller déjeuner ? Ce sera toujours la confusion sans fin avec votre famille et vos amis. Dans un tel cas, cliquez sur le bouton pour sélectionner un repas pour vous et vos collègues, amis ou famille, ils se feront un plaisir de vous laisser décider où vous précipiter pour vous restaurer ! </p>
+                                <p class="lead fw-normal text-black-50 mb-4">Le doute universel, Où peut-on aller déjeuner ? Ce sera toujours la confusion sans fin !
+                                Vous souhaitez trouver un endroit où manger avec  vos collègues, amis ou famille ? Ils se feront un plaisir de vous laisser décider où vous précipiter pour vous restaurer ! </p>
                                 <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                                    <a class="btn btn-primary btn-lg px-4 me-sm-3" id="triggerChoice">Cliquez ici et découvrez ce que vous allez manger ! </a>
+                                    <button class="btn btn-primary btn-lg px-4 me-sm-3" id="triggerChoice">Cliquez ici et découvrez ce que vous allez manger ! </button>
                                 </div>
                             </div>
                         </div>
@@ -46,13 +47,9 @@
         <footer class="bg-white py-4 mt-auto">
             <div class="container px-5">
                 <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                    <div class="col-auto"><div class="small m-0 text-black">Copyright &copy; Your Website 2021</div></div>
+                    <div class="col-auto"></div>
                     <div class="col-auto">
-                        <a class="link-light small" href="#!">Privacy</a>
-                        <span class="text-black mx-1">&middot;</span>
-                        <a class="link-light small" href="#!">Terms</a>
-                        <span class="text-black mx-1">&middot;</span>
-                        <a class="link-light small" href="#!">Contact</a>
+                        <p class="text-black">Made with Love by Mouss</p>
                     </div>
                 </div>
             </div>
@@ -61,7 +58,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
         <script>
-            window.onload = scrollTo;
             document.getElementById("triggerChoice").addEventListener('click',() => {
                 scrollTo(document.getElementById("displayResult"));
                 getRandomChoice();
@@ -91,13 +87,13 @@
 
             function getLocation() {
                 if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(getPlaces);
+                    navigator.geolocation.getCurrentPosition(getRestaurants);
                 } else {
                     document.getElementById("suggestionCard").innerHTML = `<p> Geolocation is not supported by this browser </p>`;
                 }
             }
 
-            function getPlaces(position) {
+            function getRestaurants(position) {
                 // Do something with the coordinates
                 keyword = document.getElementById("result").innerHTML
 
@@ -122,24 +118,31 @@
                         return
                     }
 
-                let isOpen = ''
+                    let isOpen = ''
                     if ( restaurant.opening_hours && restaurant.opening_hours.open_now) {
                         isOpen = restaurant.opening_hours.open_now ? "Ouvert" : "Fermé"
                     } else {
                         isOpen = "Non Renseigné"
                     }
+                    // let urlToSearch = encodeURI(`https://www.google.fr/search?q=${restaurant.name}`)
+                    // var search_restaurant = 'Voir ce';
+                    // console.log(totn_string.link('https://www.techonthenet.com/index.php'));
+
+                    let urlToSearch = encodeURI(`https://www.google.fr/search?q=${restaurant.name}`)
+                    var search_restaurant = 'Voir ce restaurant';
+                    let link = search_restaurant.link(urlToSearch);
+
                     return (`<div class="col-lg-3" style="margin-bottom:50px">
                                     <div class="card h-100 shadow border-0">
                                         <div class="card-body p-4">
-                                            <div class="badge bg-primary bg-gradient rounded-pill mb-2">
-                                            ${isOpen}</div>
+                                            <div class="badge bg-primary bg-gradient rounded-pill mb-2">${isOpen}</div>
                                             <div class="badge bg-primary bg-gradient rounded-pill mb-2">
                                             Note : ${restaurant.rating}</div>
                                             <p class="text-decoration-none link-dark stretched-link">
                                             <h5 class="card-title mb-3">${restaurant.name}</h5>
                                             </p>
                                             <p class="card-text mb-0">${restaurant.vicinity}</p>
-                                            <div><a href="https://www.google.fr/search?q=${restaurant.name}"> Voir ce restaurant </a> </div>
+                                            ${link}
                                         </div>
                                     </div>
                                 </div>`)

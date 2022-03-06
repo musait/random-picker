@@ -269,11 +269,14 @@ sup {
 }
 
 a {
-  color: #0d6efd;
+  color: black;
   text-decoration: underline;
+  z-index: 20;
+  position: relative;
 }
 a:hover {
-  color: #0a58ca;
+  color: black;
+  cursor: pointer;
 }
 
 a:not([href]):not([class]),
@@ -8166,7 +8169,7 @@ fieldset:disabled .btn {
 
 .bg-primary {
   --bs-bg-opacity: 1;
-  background-color: #DE8E00 !important;
+  background-color: #de8e00 !important;
 }
 
 .bg-secondary {
