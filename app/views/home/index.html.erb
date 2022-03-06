@@ -119,7 +119,6 @@
                 if ( restaurant.opening_hours && restaurant.opening_hours.open_now) {
                     isOpen = restaurant.opening_hours.open_now ? "Ouvert" : "Fermé"
                 } else {
-                    console.log(restaurant.opening_hours.open_now)
                     isOpen = "Non Renseigné"
                 }
                 return (`<div class="col-lg-3" style="margin-bottom:50px">
