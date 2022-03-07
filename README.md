@@ -20,7 +20,7 @@ Pour l'utiliser en local, voici les commandes a effectuer :
 
 * `rails test`
 
-Si les test ne passe pas, pense à ouvrir une "Issue" pour m'en informer. Merci :)
+Si les tests ne passent pas, pense à ouvrir une "Issue" pour m'en informer. Merci :)
 
 * `rails server`
 
