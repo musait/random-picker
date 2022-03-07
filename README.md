@@ -18,6 +18,10 @@ Pour l'utiliser en local, voici les commandes a effectuer :
 
 * `rails db:create db:migrate db:seed`
 
+* `rails test`
+
+Si les tests ne passent pas, pense à ouvrir une "Issue" pour m'en informer. Merci :)
+
 * `rails server`
 
 Elle est également en ligne et accessible à cet Url : https://random-picker-dej.herokuapp.com/
